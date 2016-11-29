@@ -7,19 +7,11 @@ var express        = require("express"),
 	User           = require("./models/user"),
 	app            = express();
 
+// Routes setup
 var apiRoutes  = require("./routes/api"),
     authRoutes = require("./routes/auth");
 
-// const express = require('express');
-// const http = require('http');
-// const bodyParser = require('body-parser');
-// const morgan = require('morgan');
-// const app = express();
-// const router = require('./router');
-// const mongoose = require('mongoose');
-// const cors = require('cors');
-
-// Database Setup
+// Database setup
 mongoose.connect('mongodb://localhost/street_view');
 
 // App Setup

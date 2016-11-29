@@ -10,21 +10,21 @@
         },
         "position": {
             "lat": 43.64918,
-            "lng": -79.377907
-        },
-        "pov": {
+            "lng": -79.377907,
             "heading": 250,
-            "pitch": 0
+            "pitch": 0,
+            "zoom": 1
         },
-        "zoom": 1,
         "questions": [
             "Toronto",
             "Los Angeles",
             "New York City",
             "Chicago"
         ],
-        "plays": 0,
-        "averageTime": 5,
-        "userCreated": false
+        "stats": {
+            "plays": 1,
+            "averageTime": 5,
+            "userCreated": false
+        }
     }
 ]
