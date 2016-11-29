@@ -9,7 +9,9 @@ router.get('/testing2', function(req, res) {
 
 // CREATE a new location
 router.post('/', function(req, res) {
-    
+    const newLocation = {
+        
+    }
 });
 
 module.exports = router;
