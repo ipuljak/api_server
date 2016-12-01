@@ -7,23 +7,29 @@ var locationSchema = new Schema({
     type: String,
     name: String,
     location: {
-        city: String,
+        continent: String,
+        country: String,
         area: String,
-        country: String
+        city: String
     },
-    position: {
+    data: {
+        info: String,
+        link: String,
+        image: String,
+        source: String
+    },
+    view: {
         lat: Number,
         lng: Number,
         heading: Number,
         pitch: Number,
         zoom: Number
     },
-    stats: {
-        plays: Number,
-        averageTime: Number,
+    users: {
+        popularity: Number,
+        comments: [String],
         userCreated: Boolean
-    },
-    questions: [String]
+    }
 });
 
 module.exports = mongoose.model("Location", locationSchema);

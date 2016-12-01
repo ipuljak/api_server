@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>input {display:block; width:100%;} #divcenter {margin: auto; width:50%;}</style>
+    </head>
+    <body>
+        <div id="divcenter">
+            Type: <input type="text" id="type">
+            Name: <input type="text" id="name">
+            Continent: <input type="text" id="continent">
+            Country: <input type="text" id="country">
+            Area: <input type="text" id="area">
+            City: <input type="text" id="city">
+            Info: <input type="text" id="info">
+            Link: <input type="text" id="link">
+            Image: <input type="text" id="image">
+            Source: <input type="text" id="source">
+            lat: <input type="number" id="lat">
+            lng: <input type="number" id="lng">
+            heading: <input type="number" id="heading">
+            pitch: <input type="number" id="pitch">
+            zoom: <input type="number" id="zoom">
+            <button id="button">Submit</button>
+        </div>
+
+        <script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+
+        <script>
+            $("#button").click(function() {
+                var myData = {
+                    type: $("#type").val(),
+                    name: $("#name").val(),
+                    location: {
+                        continent: $("#continent").val(),
+                        country: $("#country").val(),
+                        area: $("#area").val(),
+                        city: $("#city").val()
+                    },
+                    data: {
+                        info: $("#info").val(),
+                        link: $("#link").val(),
+                        image: $("#image").val(),
+                        source: $("#source").val()
+                    },
+                    view: {
+                        lat: parseFloat($("#lat").val()),
+                        lng: parseFloat($("#lng").val()),
+                        heading: parseInt($("#heading").val()),
+                        pitch: parseInt($("#pitch").val()),
+                        zoom: parseInt($("#zoom").val())
+                    },
+                    users: {
+                        popularity: 0,
+                        comments: [],
+                        userCreated: false
+                    }
+                };
+
+                $.ajax({
+                    url: 'http://localhost:3001/api/street_view/add_location',
+                    type: 'POST',
+                    data: JSON.stringify(myData),
+                    dataType: 'json',
+                    success: function(result) {
+                        console.log('Result:', result);
+                    },
+                    error: function(e) {
+                        console.log('Error!', e);
+                    }            
+                });
+            });
+        </script>
+
+    </body>
+</html>
