@@ -8,7 +8,7 @@ var express        = require("express"),
 	app            = express();
 
 // Routes setup
-var apiRoutes  = require("./routes/api"),
+var streetViewAPI  = require("./routes/street_view"),
     authRoutes = require("./routes/auth");
 
 // Database setup
@@ -20,8 +20,11 @@ app.use(cors());
 app.use(bodyparser.json({type: '*/*'}));
 
 // Define the routes for our app to use
-app.use("/", authRoutes);
-app.use("/api", apiRoutes);
+app.get('/', function(req, res) {
+	res.sendFile(__dirname + '/index.html');
+})
+//app.use("/", authRoutes);
+app.use("/api/street_view", streetViewAPI);
 
 // Start the server and listen on the specified port
 app.listen(3001, process.env.IP, function() {
