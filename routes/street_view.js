@@ -8,6 +8,42 @@ String.prototype.capitalize = function() {
 
 /**
  *  GET location API call. To use:
+ *      -> http://localhost:3001/api/street_view/get_distinct_types
+ *      It returns a list of all the distinct types of locations.
+ */
+router.get('/get_distinct_types', function(req, res) {
+    Location.distinct("type", function(err, result) {
+        if (err) {
+            res.send(404);
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+/**
+ *  GET location API call. To use:
+ *      -> http://localhost:3001/api/street_view/get_distinct_locations?location=[type]
+ *      where type can be:
+ *          city, area, country, or continent
+ *      It returns a list of all of the distinct locations specified by location type.
+ */
+router.get('/get_distinct_locations', function(req, res) {
+
+    var term = 'location.' + req.query.location;
+
+    Location.distinct(term, function(err, result) {
+        if (err) {
+            res.send(404);
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+
+/**
+ *  GET location API call. To use:
  *      -> http://localhost:3001/api/street_view/get_locations?type=[type],city=[name],country=[name],name=[name]
  *      where type can be:
  *          city, country, landmark, location, museum, zoo, sports, religious, etc
@@ -36,63 +72,6 @@ router.get('/get_locations', function(req, res) {
         }
     });
 });
-
-/**
- *  GET location API call. To use:
- *      -> http://localhost:3001/api/get_locations_by_type?type=[name]
- *      where type is the name of the desired type of location -> [museum, zoo, sports, religious, etc].
- *      
- */
-router.get('/get_locations_by_type', function(req, res) {
-    
-    var term = {location: req.query.type.toLowerCase()};
-
-    Location.find(term, function(err, result) {
-        if (err) {
-            res.send(404);
-        } else {
-            res.send(result);
-        }
-    });
-});
-
-/**
- *  GET location API call. To use:
- *      -> http://localhost:3001/api/get_countries?country=[name]
- *      where name is the name of the desired country
- */
-router.get('/get_countries', function(req, res) {
-
-    var term = {'location.country': req.query.country.toLowerCase().capitalize()};
-
-    Location.find(term, function(err, result) {
-        if (err) {
-            res.send(404);
-        } else {
-            res.send(result);
-        }
-    })
-});
-
-/**
- *  GET location API call. To use:
- *      -> http://localhost:3001/api/get_city_locations?city=[name]
- *      where name is the name of the desired city
- */
-router.get('/get_city_locations', function(req, res) {
-
-    var term = {'location.city': req.query.city.toLowerCase().capitalize()};
-
-    Location.find(term, function(err, result) {
-        if (err) {
-            res.send(404);
-        } else {
-            res.send(result);
-        }
-    });
-});
-
-
 
 /**
  *  POST location API call. To use:
