@@ -41,6 +41,21 @@ router.get('/get_distinct_locations', function(req, res) {
     });
 });
 
+/**
+ *  GET location API call. To use:
+ *      -> http://localhost:3001/api/street_view/get_location_by_id?id=[id]
+ *      where id is a unique id assigned to a location.
+ *      It returns the resulting location.
+ */
+router.get('/get_location_by_id', function(req, res) {
+    Location.findById(req.query.id, function(err, result) {
+        if (err) {
+            res.send(404);
+        } else {
+            res.send(result);
+        }
+    });
+});
 
 /**
  *  GET location API call. To use:
