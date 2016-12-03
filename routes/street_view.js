@@ -43,6 +43,22 @@ router.get('/get_distinct_locations', function(req, res) {
 
 /**
  *  GET location API call. To use:
+ *      -> http://localhost:3001/api/street_view/get_base_info_by_type?type=[name]
+ *      where type can be is the type of a location (museum, sports, etc.)
+ *      It returns a list of all the locations' names and image given a specified type.
+ */
+router.get('/get_base_info_by_type', function(req, res) {
+    Location.find({'type': req.query.type}, 'name data.image', function(err, result) {
+        if (err) {
+            res.send(404);
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+/**
+ *  GET location API call. To use:
  *      -> http://localhost:3001/api/street_view/get_location_by_id?id=[id]
  *      where id is a unique id assigned to a location.
  *      It returns the resulting location.
