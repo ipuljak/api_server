@@ -48,7 +48,7 @@ router.get('/get_distinct_locations', function(req, res) {
  *      It returns a list of all the locations' names and image given a specified type.
  */
 router.get('/get_base_info_by_type', function(req, res) {
-    Location.find({'type': req.query.type}, 'name data.image', function(err, result) {
+    Location.find({'type': req.query.type}, 'name location', function(err, result) {
         if (err) {
             res.send(404);
         } else {
