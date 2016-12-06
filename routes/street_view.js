@@ -7,75 +7,34 @@ String.prototype.capitalize = function() {
 }
 
 /**
- *  GET location API call. To use:
- *      -> http://localhost:3001/api/street_view/get_distinct_types
- *      It returns a list of all the distinct types of locations.
+ *  GET distinct locations API call. To use:
+ *      -> http://localhost:3001/api/street_view/get_distincts
+ *      It returns a list of all the distinct types and cities.
  */
-router.get('/get_distinct_types', function(req, res) {
+router.get('/get_distincts', function(req, res) {
+    var distincts = {};
+
     Location.distinct("type", function(err, result) {
         if (err) {
             res.send(404);
         } else {
-            res.send(result);
+            distincts['type'] = result;
         }
     });
-});
 
-/**
- *  GET location API call. To use:
- *      -> http://localhost:3001/api/street_view/get_distinct_locations?location=[type]
- *      where type can be:
- *          city, area, country, or continent
- *      It returns a list of all of the distinct locations specified by location type.
- */
-router.get('/get_distinct_locations', function(req, res) {
-
-    var term = 'location.' + req.query.location;
-
-    Location.distinct(term, function(err, result) {
+    Location.distinct("location.city", function(err, result) {
         if (err) {
             res.send(404);
         } else {
-            res.send(result);
+            distincts['city'] = result;
+            res.send(distincts);
         }
     });
 });
 
 /**
  *  GET location API call. To use:
- *      -> http://localhost:3001/api/street_view/get_base_info_by_type?type=[name]
- *      where type can be is the type of a location (museum, sports, etc.)
- *      It returns a list of all the locations' names and image given a specified type.
- */
-router.get('/get_base_info_by_type', function(req, res) {
-    Location.find({'type': req.query.type}, 'name location', function(err, result) {
-        if (err) {
-            res.send(404);
-        } else {
-            res.send(result);
-        }
-    });
-});
-
-/**
- *  GET location API call. To use:
- *      -> http://localhost:3001/api/street_view/get_location_by_id?id=[id]
- *      where id is a unique id assigned to a location.
- *      It returns the resulting location.
- */
-router.get('/get_location_by_id', function(req, res) {
-    Location.findById(req.query.id, function(err, result) {
-        if (err) {
-            res.send(404);
-        } else {
-            res.send(result);
-        }
-    });
-});
-
-/**
- *  GET location API call. To use:
- *      -> http://localhost:3001/api/street_view/get_locations?type=[type],city=[name],country=[name],name=[name]
+ *      -> http://localhost:3001/api/street_view/get_locations?type=[type]&city=[name],country=[name],name=[name]
  *      where type can be:
  *          city, country, landmark, location, museum, zoo, sports, religious, etc
  *      and city can be the name of a city
@@ -94,6 +53,27 @@ router.get('/get_locations', function(req, res) {
             term[keys[i]] = req.query[keys[i]];
         }
     }
+
+    Location.find(term, function(err, result) {
+        if (err) {
+            res.send(404);
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+/**
+ *  GET location API call. To use:
+ *      -> http://localhost:3001/api/street_view/search_locations?search=[term]
+ *      where search can be any city or location type.
+ *      Returns all resulting locations.
+ */
+router.get('/search_locations', function(req, res) {
+
+    // Search either by location type or city
+    var term = {$or:[{'type':req.query.search}, 
+        {'location.city':req.query.search}]};
 
     Location.find(term, function(err, result) {
         if (err) {
