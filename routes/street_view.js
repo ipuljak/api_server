@@ -71,9 +71,15 @@ router.get('/get_locations', function(req, res) {
  */
 router.get('/search_locations', function(req, res) {
 
-    // Search either by location type or city
-    var term = {$or:[{'type':req.query.search}, 
-        {'location.city':req.query.search}]};
+    var term = {};
+
+    // Search either by location type, landmark, or city
+    if (req.query.search === 'landmark') {
+        term = {'landmark':true};
+    } else {
+        term = {$or:[{'type':req.query.search}, 
+            {'location.city':req.query.search}]};
+    }
 
     Location.find(term, function(err, result) {
         if (err) {
@@ -115,6 +121,7 @@ router.post('/add_location', function(req, res) {
     // Instantiate the new location object to be placed into the database
     const newLocation = {
         type: req.body.type,
+        landmark: req.body.landmark,
         name: req.body.name,
         location: req.body.location,
         data: req.body.data,
