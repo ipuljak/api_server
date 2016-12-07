@@ -22,6 +22,8 @@
             heading: <input type="number" id="heading">
             pitch: <input type="number" id="pitch">
             zoom: <input type="number" id="zoom">
+            indoor: <input type="checkbox" id="indoor">
+            landmark: <input type="checkbox" id="landmark">
             <button id="button">Submit</button>
         </div>
 
@@ -35,6 +37,7 @@
             $("#button").click(function() {
                 var myData = {
                     type: $("#type").val(),
+                    landmark: $("#landmark").is(":checked"),
                     name: $("#name").val(),
                     location: {
                         continent: $("#continent").val(),
@@ -53,7 +56,8 @@
                         lng: parseFloat($("#lng").val()),
                         heading: parseInt($("#heading").val()),
                         pitch: parseInt($("#pitch").val()),
-                        zoom: parseInt($("#zoom").val())
+                        zoom: parseInt($("#zoom").val()),
+                        indoor: $("#indoor").is(":checked")
                     },
                     users: {
                         popularity: 0,

@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 // Define the schema for the location of our street view component
 var locationSchema = new Schema({
     type: String,
+    landmark: Boolean,
     name: String,
     location: {
         continent: String,
@@ -23,7 +24,8 @@ var locationSchema = new Schema({
         lng: Number,
         heading: Number,
         pitch: Number,
-        zoom: Number
+        zoom: Number,
+        indoor: Boolean
     },
     users: {
         popularity: Number,
