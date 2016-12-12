@@ -22,6 +22,7 @@ router.get('/get_distincts', function(req, res) {
         }
     });
 
+
     Location.distinct("location.city", function(err, result) {
         if (err) {
             res.send(404);
