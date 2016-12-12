@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Location = require('../models/location');
 
+/**
+ *  String property 'capitalize' to capitalize the first letter of a given word
+ */
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
@@ -18,17 +21,46 @@ router.get('/get_distincts', function(req, res) {
         if (err) {
             res.send(404);
         } else {
-            distincts['type'] = result;
+            distincts['type'] = result.sort();
         }
     });
 
-
-    Location.distinct("location.city", function(err, result) {
+    Location.find({'type':'country'}, {'name':1, 'data.image':1}, function(err, result) {
         if (err) {
             res.send(404);
         } else {
-            distincts['city'] = result;
+            distincts['country'] = result.sort(function(a,b){
+                return a.name.localeCompare(b.name);
+            });
             res.send(distincts);
+        }
+    });
+});
+
+/**
+ *  GET country info API call. To use:
+ *      -> http://localhost:3001/api/street_view/get_country_info?country=[country]
+ *      It returns the information of a given country along with it's cities.
+ */
+router.get('/get_country_info', function(req, res) {
+    var info = {};
+    var country = req.query.country;
+    var term = {'location.country': country};
+
+    Location.findOne({name: country}, function(err, result) {
+        if (err) {
+            res.send(404);
+        } else {
+            info['country'] = result;
+
+            Location.distinct('location.city', term, function(err, result) {
+                if (err) {
+                    res.send(404);
+                } else {
+                    info['cities'] = result;
+                    res.send(info);
+                }
+            });
         }
     });
 });
