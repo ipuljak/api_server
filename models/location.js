@@ -27,6 +27,14 @@ var locationSchema = new Schema({
         zoom: Number,
         indoor: Boolean
     },
+    alternate: {
+        lat: Number,
+        lng: Number,
+        heading: Number,
+        pitch: Number,
+        zoom: Number,
+        indoor: Boolean
+    },
     users: {
         popularity: Number,
         comments: [String],
