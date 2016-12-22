@@ -21,19 +21,21 @@ String.prototype.capitalize = function() {
 router.get('/get_distincts', function(req, res) {
     var distincts = {};
 
-    Location.distinct("type", function(err, result) {
+    Category.find({}, function(err, result) {
         if (err) {
             res.send(404);
         } else {
-            distincts['type'] = result.sort();
+            distincts['type'] = result.sort(function(a,b) {
+                return a.name.localeCompare(b.name);
+            });
         }
     });
 
-    Location.find({'type':'country'}, {'name':1, 'data.image':1}, function(err, result) {
+    Country.find({}, {'name':1, 'data.image':1}, function(err, result) {
         if (err) {
             res.send(404);
         } else {
-            distincts['country'] = result.sort(function(a,b){
+            distincts['country'] = result.sort(function(a,b) {
                 return a.name.localeCompare(b.name);
             });
             res.send(distincts);
@@ -51,7 +53,7 @@ router.get('/get_country_info', function(req, res) {
     var country = req.query.country;
     var term = {'location.country': country};
 
-    Location.findOne({name: country}, function(err, result) {
+    Country.findOne({name: country}, function(err, result) {
         if (err) {
             res.send(404);
         } else {
