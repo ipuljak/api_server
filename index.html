@@ -23,6 +23,12 @@
             heading: <input type="number" id="heading">
             pitch: <input type="number" id="pitch">
             zoom: <input type="number" id="zoom">
+            <hr/>
+            a-lat: <input type="number" id="alat">
+            a-lng: <input type="number" id="alng">
+            a-heading: <input type="number" id="aheading">
+            a-pitch: <input type="number" id="apitch">
+            <hr/>
             indoor: <input type="checkbox" id="indoor">
             landmark: <input type="checkbox" id="landmark">
             <button id="button">Submit</button>
@@ -79,6 +85,14 @@
                         lng: parseFloat($("#lng").val()),
                         heading: parseInt($("#heading").val()),
                         pitch: parseInt($("#pitch").val()),
+                        zoom: parseInt($("#zoom").val()),
+                        indoor: $("#indoor").is(":checked")
+                    },
+                    alternate: {
+                        lat: parseFloat($("#alat").val()),
+                        lng: parseFloat($("#alng").val()),
+                        heading: parseInt($("#aheading").val()),
+                        pitch: parseInt($("#apitch").val()),
                         zoom: parseInt($("#zoom").val()),
                         indoor: $("#indoor").is(":checked")
                     },
