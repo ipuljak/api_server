@@ -6,6 +6,7 @@
         <style>input {display:block; width:100%;} #divcenter {margin: auto; width:50%;}</style>
     </head>
     <body>
+        <h1>Location</h1>
         <div id="divcenter">
             Type: <input type="text" id="type">
             Name: <input type="text" id="name">
@@ -25,6 +26,28 @@
             indoor: <input type="checkbox" id="indoor">
             landmark: <input type="checkbox" id="landmark">
             <button id="button">Submit</button>
+        </div>
+
+        <hr />
+
+        <h1>Country</h1>
+        <div id="divcenter">
+            Name: <input type="text" id="name2">
+            Country: <input type="text" id="country2">
+            Link: <input type="text" id="link2">
+            Info: <input type="text" id="info2">
+            Image: <input type="text" id="image2">
+            Source: <input type="text" id="source2">
+            <button id="button2">Submit</button>
+        </div>
+
+        <hr />
+
+        <h1>Category</h1>
+        <div id="divcenter">
+            Name: <input type="text" id="name3">
+            Image: <input type="text" id="image3">
+            <button id="button3">Submit</button>
         </div>
 
         <script
@@ -72,10 +95,65 @@
                     data: JSON.stringify(myData),
                     dataType: 'json',
                     success: function(result) {
-                        console.log('Result:', result);
+                        console.log('Result: - Add Location', result);
                     },
                     error: function(e) {
-                        console.log('Error!', e);
+                        console.log('Error! - Add Location', e);
+                    }            
+                });
+            });
+
+            $("#button2").click(function() {
+                var myData2 = {
+                    name: $("#name2").val(),
+                    location: {
+                        country: $("#country2").val(),
+                    },
+                    data: {
+                        info: $("#info2").val(),
+                        link: $("#link2").val(),
+                        image: $("#image2").val(),
+                        source: $("#source2").val()
+                    },
+                    users: {
+                        popularity: 0,
+                        comments: []
+                    }
+                };
+
+                $.ajax({
+                    url: 'http://138.197.143.248:3001/api/street_view/add_country',
+                    type: 'POST',
+                    data: JSON.stringify(myData2),
+                    dataType: 'json',
+                    success: function(result) {
+                        console.log('Result: - Add Country', result);
+                    },
+                    error: function(e) {
+                        console.log('Error! - Add Country', e);
+                    }            
+                });
+            });
+
+            $("#button3").click(function() {
+                var myData3 = {
+                    name: $("#name3").val(),
+                    data: {
+                        image: $("#image3").val(),
+                        source: $("#source3").val()
+                    }
+                };
+
+                $.ajax({
+                    url: 'http://138.197.143.248:3001/api/street_view/add_category',
+                    type: 'POST',
+                    data: JSON.stringify(myData3),
+                    dataType: 'json',
+                    success: function(result) {
+                        console.log('Result: - Add Category', result);
+                    },
+                    error: function(e) {
+                        console.log('Error! - Add Category', e);
                     }            
                 });
             });
