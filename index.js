@@ -23,7 +23,8 @@ app.use(bodyparser.json({type: '*/*'}));
 app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/index.html');
 })
-//app.use("/", authRoutes);
+
+app.use("/auth", authRoutes);
 app.use("/api/street_view", streetViewAPI);
 
 // Start the server and listen on the specified port
