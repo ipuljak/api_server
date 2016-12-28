@@ -165,7 +165,8 @@ router.post('/add_location', function(req, res) {
         location: req.body.location,
         data: req.body.data,
         view: req.body.view,
-        users: req.body.users
+        users: req.body.users,
+        alternate: req.body.alternate
     };
 
     // Save the object into the database
