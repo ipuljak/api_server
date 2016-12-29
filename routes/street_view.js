@@ -5,6 +5,9 @@ const router = express.Router();
 const Location = require('../models/location');
 const Country = require('../models/country');
 const Category = require('../models/category');
+const Comment = require('../models/comment');
+
+var mongoose = require('mongoose');
 
 /**
  *  String property 'capitalize' to capitalize the first letter of a given word
@@ -129,6 +132,22 @@ router.get('/search_locations', function(req, res) {
     });
 });
 
+router.get('/get_comments', function(req, res) {
+    var term = {
+        'view_id': mongoose.Types.ObjectId(req.query.id)
+    };
+
+    console.log(term);
+
+    Comment.find(term, function(err, result) {
+        if (err) {
+            res.send(404);
+        } else {
+            res.send(result);
+        }
+    });
+});
+
 /**
  *  POST location API call. To use:
  *      -> http://localhost:3001/api/add_location
@@ -241,6 +260,31 @@ router.post('/add_category', function(req, res) {
             res.send(201, 'Success');
         }
     });
+});
+
+router.post('/post_comment', function(req, res) {
+    const newComment = {
+        view_id: req.query.id,
+        text: req.body.comment,
+        username: req.body.username
+    };
+
+    // Location.findById(newComment.view, function(err, location) {
+    //     if (err) {
+    //         console.log("There was an error finding the location", err);
+    //         res.send(404, 'Error 1');
+    //     } else {
+    Comment.create(newComment, function(err, comment) {
+        if (err) {
+            console.log("There was an error creating the comment", err);
+            res.send(404, 'Error 2');
+        } else {
+            // location.users['comments'].push(comment);
+            // location.save();
+            console.log("Success");
+            res.send(201, 'Success');
+        }
+    })
 });
 
 module.exports = router;
