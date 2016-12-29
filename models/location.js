@@ -37,8 +37,13 @@ var locationSchema = new Schema({
     },
     users: {
         popularity: Number,
-        comments: [String],
-        userCreated: Boolean
+        userCreated: Boolean,
+        comments: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Comment"
+            }
+        ]
     }
 });
 
