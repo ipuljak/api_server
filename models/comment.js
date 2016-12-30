@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 // Define the schema for the location of our street view component
 var commentSchema = new Schema({
-    text: String,
+    comment: String,
     date: { type: Date, default: Date.now },
     view_id: {
         type: Schema.Types.ObjectId,

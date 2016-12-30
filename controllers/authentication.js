@@ -3,7 +3,7 @@ const User = require('../models/user');
 const config = require('../config');
 
 function tokenForUser(user) {
-    // always have the same id, so we will encode that instead of an email (they might want to change that later on)
+    // always have the same id, so we will encode that instead of an username (they might want to change that later on)
     // jwt is a convention, a standard
     // sub = subject, as in who is the subject? who does it belong to?
     // this very specific user right now
@@ -13,7 +13,7 @@ function tokenForUser(user) {
 }
 
 exports.signin = function(req, res, next) {
-    // User has already had their email and password authenticated
+    // User has already had their username and password authenticated
     // We just need to give them a token
 
     res.send({token: tokenForUser(req.user)});
@@ -22,28 +22,28 @@ exports.signin = function(req, res, next) {
 exports.signup = function(req, res, next) {
     console.log(req.body);
 
-    const email = req.body.email;
+    const username = req.body.username;
     const password = req.body.password;
 
-    if (!email || !password) {
-        return res.status(422).send({error: "You must provide email and password"});
+    if (!username || !password) {
+        return res.status(422).send({error: "You must provide username and password"});
     }
 
-    // See if a user with the given email exists
+    // See if a user with the given username exists
     // User = entire collection of users
-    User.findOne({email: email}, function(err, existingUser) {
+    User.findOne({username: username}, function(err, existingUser) {
         if (err) {
             return next(err);
         }
 
-        // If a user with email does exist, return an error
+        // If a user with username does exist, return an error
         if (existingUser) {
-            return res.status(422).send({error: "Email is in use"});
+            return res.status(422).send({error: "username is in use"});
         }
 
-        // If a user with email does NOT exist, create and save user record
+        // If a user with username does NOT exist, create and save user record
         const user = new User({
-            email: email,
+            username: username,
             password: password
         });
 
