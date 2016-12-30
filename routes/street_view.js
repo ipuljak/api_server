@@ -1,13 +1,19 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
+
+const Authentication = require('../controllers/authentication');
+const passportService = require('../services/passport');
+
+const passport = require('passport');
+const requireAuth = passport.authenticate('jwt', {session:false});
+const requireSignin = passport.authenticate('local', {session:false});
 
 // Load in the models
 const Location = require('../models/location');
 const Country = require('../models/country');
 const Category = require('../models/category');
 const Comment = require('../models/comment');
-
-var mongoose = require('mongoose');
 
 /**
  *  String property 'capitalize' to capitalize the first letter of a given word
@@ -137,13 +143,11 @@ router.get('/get_comments', function(req, res) {
         'view_id': mongoose.Types.ObjectId(req.query.id)
     };
 
-    console.log(term);
-
     Comment.find(term, function(err, result) {
         if (err) {
             res.send(404);
         } else {
-            res.send(result);
+            res.send(result.reverse());
         }
     });
 });
@@ -262,25 +266,18 @@ router.post('/add_category', function(req, res) {
     });
 });
 
-router.post('/post_comment', function(req, res) {
+router.post('/post_comment', requireAuth, function(req, res) {
     const newComment = {
         view_id: req.query.id,
-        text: req.body.comment,
-        username: req.body.username
+        comment: req.body.comment,
+        username: req.user.username
     };
 
-    // Location.findById(newComment.view, function(err, location) {
-    //     if (err) {
-    //         console.log("There was an error finding the location", err);
-    //         res.send(404, 'Error 1');
-    //     } else {
     Comment.create(newComment, function(err, comment) {
         if (err) {
             console.log("There was an error creating the comment", err);
             res.send(404, 'Error 2');
         } else {
-            // location.users['comments'].push(comment);
-            // location.save();
             console.log("Success");
             res.send(201, 'Success');
         }
