@@ -18,19 +18,13 @@
             Info: <input type="text" id="info">
             Image: <input type="text" id="image">
             Source: <input type="text" id="source">
-            lat: <input type="number" id="lat">
-            lng: <input type="number" id="lng">
-            heading: <input type="number" id="heading">
-            pitch: <input type="number" id="pitch">
-            zoom: <input type="number" id="zoom">
             <hr/>
-            a-lat: <input type="number" id="alat">
-            a-lng: <input type="number" id="alng">
-            a-heading: <input type="number" id="aheading">
-            a-pitch: <input type="number" id="apitch">
+            View: <input type="text" id="view">
+            Alternate: <input type="text" id="alternate">
             <hr/>
-            indoor: <input type="checkbox" id="indoor">
-            landmark: <input type="checkbox" id="landmark">
+            Landmark: <input type="checkbox" id="landmark">
+            Indoor: <input type="checkbox" id="indoor">
+            Alternate indoor: <input type="checkbox" id="aindoor">
             <button id="button">Submit</button>
         </div>
 
@@ -62,8 +56,41 @@
         crossorigin="anonymous"></script>
 
         <script>
-        // © Wikimedia Commons User: MusikAnimal / CC-BY-SA-3.0
             $("#button").click(function() {
+
+                var view1 = $("#view").val();
+                var myRegex = /\/@(.*?)t\//g;
+                var match = myRegex.exec(view1);
+                var viewVals = match[1].split(',');
+
+                var view2 = $("#alternate").val();
+
+                if (view2 !== '') {
+                    myRegex.lastIndex = 0;
+                    var match2 = myRegex.exec(view2);
+                    var view2Vals = match2[1].split(',');
+
+                    var alternate = {
+                        lat: parseFloat(view2Vals[0]),
+                        lng: parseFloat(view2Vals[1]),
+                        heading: parseFloat(view2Vals[4]),
+                        pitch: Math.round((parseFloat(view2Vals[5]) - 80)*100)/100,
+                        zoom: 0,
+                        indoor: $("#aindoor").is(":checked")
+                    };
+                } else {
+                    var alternate = {};
+                }
+                
+                var view = {
+                    lat: parseFloat(viewVals[0]),
+                    lng: parseFloat(viewVals[1]),
+                    heading: parseFloat(viewVals[4]),
+                    pitch: Math.round((parseFloat(viewVals[5]) - 80)*100)/100,
+                    zoom: 0,
+                    indoor: $("#indoor").is(":checked")
+                };
+
                 var myData = {
                     type: $("#type").val(),
                     landmark: $("#landmark").is(":checked"),
@@ -80,22 +107,8 @@
                         image: $("#image").val(),
                         source: $("#source").val()
                     },
-                    view: {
-                        lat: parseFloat($("#lat").val()),
-                        lng: parseFloat($("#lng").val()),
-                        heading: parseInt($("#heading").val()),
-                        pitch: parseInt($("#pitch").val()),
-                        zoom: parseInt($("#zoom").val()),
-                        indoor: $("#indoor").is(":checked")
-                    },
-                    alternate: {
-                        lat: parseFloat($("#alat").val()),
-                        lng: parseFloat($("#alng").val()),
-                        heading: parseInt($("#aheading").val()),
-                        pitch: parseInt($("#apitch").val()),
-                        zoom: parseInt($("#zoom").val()),
-                        indoor: $("#indoor").is(":checked")
-                    },
+                    view,
+                    alternate,
                     users: {
                         popularity: 0,
                         comments: [],
