@@ -1,12 +1,13 @@
 const express = require('express');
-const Authentication = require('../controllers/authentication');
-const passportService = require('../services/passport');
 const router = express.Router();
 const passport = require('passport');
 
-// when a user is authenticated, don't create a session for them
-// by default passport wants to make a cookie based session
-// but we are using tokens, so session: false
+const Authentication = require('../../controllers/authentication');
+const passportService = require('../../services/passport');
+
+/* when a user is authenticated, don't create a session for them
+by default passport wants to make a cookie based session
+but we are using tokens, so session: false */
 const requireAuth = passport.authenticate('jwt', {session:false});
 const requireSignin = passport.authenticate('local', {session:false});
 
