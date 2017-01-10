@@ -1,18 +1,20 @@
 var express        = require('express'),
-	bodyparser     = require('body-parser'),
-    morgan         = require('morgan'),
-	mongoose       = require('mongoose'),
-    cors           = require('cors'),
-	Location       = require('./models/location'),
-	User           = require('./models/user'),
-	config         = require('./config'),
-	app            = express();
+		bodyparser     = require('body-parser'),
+		methodOverride = require("method-override"),
+		morgan         = require('morgan'),
+		mongoose       = require('mongoose'),
+		cors           = require('cors'),
+		Location       = require('./models/location'),
+		User           = require('./models/user'),
+		config         = require('./config'),
+		app            = express();
 
 // Routes setup
 var streetViewAuth = require('./routes/street_view/auth'),
 	streetViewCategories = require('./routes/street_view/categories'),
 	streetViewComments = require('./routes/street_view/comments'),
 	streetViewCountries = require('./routes/street_view/countries'),
+	streetViewFavorites = require('./routes/street_view/favorites'),
 	streetViewInfo = require('./routes/street_view/info'),
 	streetViewLocations = require('./routes/street_view/locations');
 
@@ -24,8 +26,9 @@ mongoose.connect(databaseLink);
 app.use(morgan('combined'));
 app.use(cors());
 app.use(bodyparser.json({type: '*/*'}));
+app.use(methodOverride("_method"));
 
-// Define the routes for our app to use
+// Set the index file to be served
 app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/index.html');
 });
@@ -34,6 +37,7 @@ app.use('/api/street_view/auth', streetViewAuth);
 app.use('/api/street_view/categories', streetViewCategories);
 app.use('/api/street_view/comments', streetViewComments);
 app.use('/api/street_view/countries', streetViewCountries);
+app.use('/api/street_view/favorites', streetViewFavorites);
 app.use('/api/street_view/info', streetViewInfo);
 app.use('/api/street_view/locations', streetViewLocations);
 

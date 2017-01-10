@@ -38,13 +38,14 @@ exports.signup = function(req, res, next) {
 
         // If a user with username does exist, return an error
         if (existingUser) {
-            return res.status(422).send({error: "username is in use"});
+            return res.status(422).send({error: "Username is in use."});
         }
 
         // If a user with username does NOT exist, create and save user record
         const user = new User({
             username: username,
-            password: password
+            password: password,
+            favorites: []
         });
 
         // Save the new user to the database
