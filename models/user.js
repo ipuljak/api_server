@@ -4,55 +4,55 @@ const bcrypt = require('bcrypt-nodejs');
 
 // Define our model
 const userSchema = new Schema({
-    username: { type: String, unique: true },
-    password: String,
-    favorites:  [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "Location"
-        }
-    ]
+  username: { type: String, unique: true },
+  password: String,
+  favorites: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Location"
+    }
+  ]
 });
 
 // On Save Hook, encrypt password
 // Before saving a model, run this function
-userSchema.pre('save', function(next) {
-    // get access to the user model
-    // user is a specific user now
-    const user = this;
+userSchema.pre('save', function (next) {
+  // get access to the user model
+  // user is a specific user now
+  const user = this;
 
-    // generate a salt and then run callback
-    bcrypt.genSalt(10, function(err, salt) {
-        if (err) {
-            return next(err);
-        }
+  // generate a salt and then run callback
+  bcrypt.genSalt(10, function (err, salt) {
+    if (err) {
+      return next(err);
+    }
 
-        // hash/encrypt our password using the salt
-        bcrypt.hash(user.password, salt, null, function(err, hash) {
-            if (err) {
-                return next(err);
-            }
+    // hash/encrypt our password using the salt
+    bcrypt.hash(user.password, salt, null, function (err, hash) {
+      if (err) {
+        return next(err);
+      }
 
-            // overwrite plain text password with encrypted password
-            user.password = hash;
-            next();
-        });
+      // overwrite plain text password with encrypted password
+      user.password = hash;
+      next();
     });
+  });
 });
 
-userSchema.methods.comparePassword = function(candidatePassword, callback) {
-    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-        if (err) {
-            return callback(err);
-        }
+userSchema.methods.comparePassword = function (candidatePassword, callback) {
+  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+    if (err) {
+      return callback(err);
+    }
 
-        callback(null, isMatch);
-    });
+    callback(null, isMatch);
+  });
 }
 
 // Create the model class
 // this is a class of users
-const ModelClass = mongoose.model('user', userSchema); 
+const ModelClass = mongoose.model('user', userSchema);
 
 
 // Export the model

@@ -1,61 +1,56 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>input {display:block; width:100%;} #divcenter {margin: auto; width:50%;}</style>
-    </head>
-    <body>
-        <h1>Location</h1>
-        <div id="divcenter">
-            Type: <input type="text" id="type">
-            Name: <input type="text" id="name">
-            Continent: <input type="text" id="continent">
-            Country: <input type="text" id="country">
-            Area: <input type="text" id="area">
-            City: <input type="text" id="city">
-            Link: <input type="text" id="link">
-            Info: <input type="text" id="info">
-            Image: <input type="text" id="image">
-            Source: <input type="text" id="source">
-            <hr/>
-            View: <input type="text" id="view">
-            Alternate: <input type="text" id="alternate">
-            <hr/>
-            Landmark: <input type="checkbox" id="landmark">
-            Indoor: <input type="checkbox" id="indoor">
-            Alternate indoor: <input type="checkbox" id="aindoor">
-            <button id="button">Submit</button>
-        </div>
 
-        <hr />
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    input {
+      display: block;
+      width: 100%;
+    }
+    
+    #divcenter {
+      margin: auto;
+      width: 50%;
+    }
+  </style>
+</head>
 
-        <h1>Country</h1>
-        <div id="divcenter">
-            Name: <input type="text" id="name2">
-            Country: <input type="text" id="country2">
-            Link: <input type="text" id="link2">
-            Info: <input type="text" id="info2">
-            Image: <input type="text" id="image2">
-            Source: <input type="text" id="source2">
-            <button id="button2">Submit</button>
-        </div>
+<body>
+  <h1>Location</h1>
+  <div id="divcenter">
+    Type: <input type="text" id="type"> Name: <input type="text" id="name"> Continent: <input type="text" id="continent">    Country: <input type="text" id="country"> Area: <input type="text" id="area"> City: <input type="text" id="city"> Link:
+    <input type="text" id="link"> Info: <input type="text" id="info"> Image: <input type="text" id="image"> Source:
+    <input
+      type="text" id="source">
+      <hr/> View: <input type="text" id="view"> Alternate: <input type="text" id="alternate">
+      <hr/> Landmark: <input type="checkbox" id="landmark"> Indoor: <input type="checkbox" id="indoor"> Alternate indoor:
+      <input
+        type="checkbox" id="aindoor">
+        <button id="button">Submit</button>
+  </div>
 
-        <hr />
+  <hr />
 
-        <h1>Category</h1>
-        <div id="divcenter">
-            Name: <input type="text" id="name3">
-            Image: <input type="text" id="image3">
-            <button id="button3">Submit</button>
-        </div>
+  <h1>Country</h1>
+  <div id="divcenter">
+    Name: <input type="text" id="name2"> Country: <input type="text" id="country2"> Link: <input type="text" id="link2">    Info: <input type="text" id="info2"> Image: <input type="text" id="image2"> Source: <input type="text" id="source2">
+    <button id="button2">Submit</button>
+  </div>
 
-        <script
-        src="https://code.jquery.com/jquery-3.1.1.min.js"
-        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-        crossorigin="anonymous"></script>
+  <hr />
 
-        <script>
+  <h1>Category</h1>
+  <div id="divcenter">
+    Name: <input type="text" id="name3"> Image: <input type="text" id="image3">
+    <button id="button3">Submit</button>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+
+  <script>
             $("#button").click(function() {
 
                 var view1 = $("#view").val();
@@ -117,7 +112,7 @@
                 };
 
                 $.ajax({
-                    url: 'http://138.197.143.248:3001/api/street_view/add_location',
+                    url: 'https://streetviewtourist.com/api/street_view/locations/add_location',
                     type: 'POST',
                     data: JSON.stringify(myData),
                     dataType: 'json',
@@ -149,7 +144,7 @@
                 };
 
                 $.ajax({
-                    url: 'http://138.197.143.248:3001/api/street_view/add_country',
+                    url: 'https://streetviewtourist.com/api/street_view/countries/add_country',
                     type: 'POST',
                     data: JSON.stringify(myData2),
                     dataType: 'json',
@@ -172,7 +167,7 @@
                 };
 
                 $.ajax({
-                    url: 'http://138.197.143.248:3001/api/street_view/add_category',
+                    url: 'https://streetviewtourist.com/api/street_view/categories/add_category',
                     type: 'POST',
                     data: JSON.stringify(myData3),
                     dataType: 'json',
@@ -186,5 +181,6 @@
             });
         </script>
 
-    </body>
+</body>
+
 </html>

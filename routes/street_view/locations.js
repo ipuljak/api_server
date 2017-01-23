@@ -31,28 +31,28 @@ const Location = require('../../models/location');
         }
     }
  */
-router.post('/add_location', function(req, res) {
-    
-    // Instantiate the new location object to be placed into the database
-    const newLocation = {
-        type: req.body.type,
-        landmark: req.body.landmark,
-        name: req.body.name,
-        location: req.body.location,
-        data: req.body.data,
-        view: req.body.view,
-        users: req.body.users,
-        alternate: req.body.alternate
-    };
+router.post('/add_location',(req, res) => {
 
-    // Save the object into the database
-    Location.create(newLocation, function(err, newlyCreated) {
-        if (err) {
-            console.log('There was an error adding in the new location', err);
-        } else {
-            res.send(201, 'Success');
-        }
-    });
+  // Instantiate the new location object to be placed into the database
+  const newLocation = {
+    type: req.body.type,
+    landmark: req.body.landmark,
+    name: req.body.name,
+    location: req.body.location,
+    data: req.body.data,
+    view: req.body.view,
+    users: req.body.users,
+    alternate: req.body.alternate
+  };
+
+  // Save the object into the database
+  Location.create(newLocation, (err, newlyCreated) => {
+    if (err) {
+      console.log('There was an error adding in the new location', err);
+    } else {
+      res.send(201, 'Success');
+    }
+  });
 });
 
 module.exports = router;

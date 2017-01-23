@@ -5,9 +5,9 @@ var middleware = {};
 /**
  *  Check that the user owns the comment
  */
-middleware.checkCommentOwnership = function(req, res, next) {
+middleware.checkCommentOwnership = function (req, res, next) {
   if (req.isAuthenticated()) {
-    Comment.findById(req.query.id, function(err, foundComment) {
+    Comment.findById(req.query.id, function (err, foundComment) {
       if (err) {
         res.send(404, "Comment not found.");
       } else {
