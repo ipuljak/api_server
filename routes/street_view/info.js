@@ -39,7 +39,7 @@ router.get('/get_distincts', function (req, res) {
 
 /**
  *  GET location API call. To use:
- *      -> http://localhost:3001/api/street_view/search_locations?search=[term]
+ *      -> http://localhost:3001/api/street_view/info/search_locations?search=[term]
  *      where search can be any city or location type.
  *      Returns all resulting locations.
  */
@@ -68,7 +68,7 @@ router.get('/search_locations', function (req, res) {
 
 /**
  *  GET country info API call. To use:
- *      -> http://localhost:3001/api/street_view/get_country_info?country=[country]
+ *      -> http://localhost:3001/api/street_view/info/get_country_info?country=[country]
  *      It returns the information of a given country along with it's cities.
  */
 router.get('/get_country_info', function (req, res) {
@@ -80,13 +80,13 @@ router.get('/get_country_info', function (req, res) {
     if (err) {
       res.send(404);
     } else {
-      info['country'] = result;
+      info['info'] = result;
 
-      Location.distinct('location.city', term, function (err, result) {
+      Location.distinct('location.city', term, function (err, cities) {
         if (err) {
           res.send(404);
         } else {
-          info['cities'] = result;
+          info['cities'] = cities;
           res.send(info);
         }
       });

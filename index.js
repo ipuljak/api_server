@@ -41,7 +41,6 @@ app.use('/api/street_view/favorites', streetViewFavorites);
 app.use('/api/street_view/info', streetViewInfo);
 app.use('/api/street_view/locations', streetViewLocations);
 
-
 // Start the server and listen on the specified port
 app.listen(3001, process.env.IP, function() {
 	console.log('The API server has started on port 3001.');
