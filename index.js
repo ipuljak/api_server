@@ -1,36 +1,38 @@
-var express        = require('express'),
-		bodyparser     = require('body-parser'),
-		methodOverride = require("method-override"),
-		morgan         = require('morgan'),
-		mongoose       = require('mongoose'),
-		cors           = require('cors'),
-		Location       = require('./models/location'),
-		User           = require('./models/user'),
-		config         = require('./config'),
-		app            = express();
+// Server requirements
+const express = require('express')
+  , bodyparser = require('body-parser')
+  , methodOverride = require("method-override")
+  , morgan = require('morgan')
+  , mongoose = require('mongoose')
+  , cors = require('cors')
+  , Location = require('./models/location')
+  , User = require('./models/user')
+  , config = require('./config')
+  , app = express();
 
-// Routes setup
-var streetViewAuth = require('./routes/street_view/auth'),
-	streetViewCategories = require('./routes/street_view/categories'),
-	streetViewComments = require('./routes/street_view/comments'),
-	streetViewCountries = require('./routes/street_view/countries'),
-	streetViewFavorites = require('./routes/street_view/favorites'),
-	streetViewInfo = require('./routes/street_view/info'),
-	streetViewLocations = require('./routes/street_view/locations');
-
-// Database setup
-var databaseLink = 'mongodb://default:' + config.password + '@localhost/street_view';
-mongoose.connect(databaseLink);
-
-// App Setup
+// Server setup
 app.use(morgan('combined'));
 app.use(cors());
-app.use(bodyparser.json({type: '*/*'}));
+app.use(bodyparser.json({ type: '*/*' }));
 app.use(methodOverride("_method"));
 
+// Database setup
+//const databaseLink = 'mongodb://default:' + config.password + '@localhost/street_view';
+//mongoose.connect(databaseLink);
+mongoose.connect('mongodb://localhost/street_view');
+
+// Routes setup
+const streetViewAuth = require('./controllers/auth'),
+  streetViewCategories = require('./controllers/categories'),
+  streetViewComments = require('./controllers/comments'),
+  streetViewCountries = require('./controllers/countries'),
+  streetViewFavorites = require('./controllers/favorites'),
+  streetViewInfo = require('./controllers/info'),
+  streetViewLocations = require('./controllers/locations');
+
 // Set the index file to be served
-app.get('/', function(req, res) {
-	res.sendFile(__dirname + '/index.html');
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
 });
 
 app.use('/api/street_view/auth', streetViewAuth);
@@ -42,6 +44,6 @@ app.use('/api/street_view/info', streetViewInfo);
 app.use('/api/street_view/locations', streetViewLocations);
 
 // Start the server and listen on the specified port
-app.listen(3001, process.env.IP, function() {
-	console.log('The API server has started on port 3001.');
+app.listen(3001, process.env.IP, () => {
+  console.log('The API server has started on port 3001.');
 }); 

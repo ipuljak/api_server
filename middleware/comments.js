@@ -1,11 +1,9 @@
 var Comment = require("../models/comment");
 
-var middleware = {};
-
 /**
  *  Check that the user owns the comment
  */
-middleware.checkCommentOwnership = function (req, res, next) {
+exports.checkCommentOwnership = (req, res, next) => {
   if (req.isAuthenticated()) {
     Comment.findById(req.query.id, function (err, foundComment) {
       if (err) {
@@ -21,6 +19,4 @@ middleware.checkCommentOwnership = function (req, res, next) {
   } else {
     res.send(403, "You must be logged in to do that.");
   }
-}
-
-module.exports = middleware;
+};

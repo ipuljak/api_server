@@ -18,7 +18,7 @@
 </head>
 
 <body>
-  <h1>Location</h1>
+  <h1>LOCATION</h1>
   <div id="divcenter">
     Type: <input type="text" id="type"> Name: <input type="text" id="name"> Continent: <input type="text" id="continent">    Country: <input type="text" id="country"> Area: <input type="text" id="area"> City: <input type="text" id="city"> Link:
     <input type="text" id="link"> Info: <input type="text" id="info"> Image: <input type="text" id="image"> Source:
@@ -167,7 +167,7 @@
                 };
 
                 $.ajax({
-                    url: 'https://streetviewtourist.com/api/street_view/categories/add_category',
+                    url: 'http://localhost:3001/api/street_view/categories/add_category',
                     type: 'POST',
                     data: JSON.stringify(myData3),
                     dataType: 'json',
