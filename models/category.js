@@ -1,9 +1,13 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose')
+  , Schema = mongoose.Schema;
 
-var Schema = mongoose.Schema;
-
-// Define the schema for the location of our street view component
-var categorySchema = new Schema({
+/**
+ *  Category Schema
+ *    name -> STRING: The name of the category
+ *    data.image -> STRING: A link to the image
+ *    data.source -> STRING: A copyright source to the image if needed
+ */
+const categorySchema = new Schema({
   name: String,
   data: {
     image: String,
@@ -11,4 +15,4 @@ var categorySchema = new Schema({
   }
 });
 
-module.exports = mongoose.model("Category", categorySchema);
+module.exports = mongoose.model('Category', categorySchema);

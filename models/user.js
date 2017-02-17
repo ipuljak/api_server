@@ -1,10 +1,18 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const bcrypt = require('bcrypt-nodejs');
+const mongoose = require('mongoose')
+  , bcrypt = require('bcrypt-nodejs')
+  , Schema = mongoose.Schema;
 
-// Define our model
+/**
+ *  User Schema
+ *    username -> STRING: A unique username to represent the user
+ *    password -> STRING: The user's password which is encrypted
+ *    favorites -> ARRAY (LOCATION): A list of locations that are favorited by the user 
+ */
 const userSchema = new Schema({
-  username: { type: String, unique: true },
+  username: {
+    type: String,
+    unique: true
+  },
   password: String,
   favorites: [
     {
@@ -14,46 +22,33 @@ const userSchema = new Schema({
   ]
 });
 
-// On Save Hook, encrypt password
-// Before saving a model, run this function
-userSchema.pre('save', function (next) {
-  // get access to the user model
-  // user is a specific user now
+// Save hook to encrypt the user's password before storing it to the database
+userSchema.pre('save', next => {
+  // Get access to the user model - user is a specific user now
   const user = this;
-
-  // generate a salt and then run callback
-  bcrypt.genSalt(10, function (err, salt) {
-    if (err) {
-      return next(err);
-    }
-
-    // hash/encrypt our password using the salt
-    bcrypt.hash(user.password, salt, null, function (err, hash) {
-      if (err) {
-        return next(err);
-      }
-
-      // overwrite plain text password with encrypted password
+  // Generate a salt for the password and then run the next callback
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) return next(err);
+    // Hash/encrypt the password using the salt
+    bcrypt.hash(user.password, salt, null, (err, hash) => {
+      if (err) return next(err);
+      // Overwrite plain text password with encrypted password
       user.password = hash;
       next();
     });
   });
 });
 
-userSchema.methods.comparePassword = function (candidatePassword, callback) {
-  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
-    if (err) {
-      return callback(err);
-    }
-
+// Method to compare given user passwords with encrypted passwords in the database
+userSchema.methods.comparePassword = (candidatePassword, callback) => {
+  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+    if (err) return callback(err);
     callback(null, isMatch);
   });
-}
+};
 
 // Create the model class
-// this is a class of users
 const ModelClass = mongoose.model('user', userSchema);
-
 
 // Export the model
 module.exports = ModelClass;

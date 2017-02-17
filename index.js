@@ -22,13 +22,13 @@ app.use(methodOverride("_method"));
 mongoose.connect('mongodb://localhost/street_view');
 
 // Routes setup
-const streetViewAuth = require('./controllers/auth'),
-  streetViewCategories = require('./controllers/categories'),
-  streetViewComments = require('./controllers/comments'),
-  streetViewCountries = require('./controllers/countries'),
-  streetViewFavorites = require('./controllers/favorites'),
-  streetViewInfo = require('./controllers/info'),
-  streetViewLocations = require('./controllers/locations');
+const streetViewAuth = require('./controllers/auth')
+  , streetViewCategories = require('./controllers/categories')
+  , streetViewComments = require('./controllers/comments')
+  , streetViewCountries = require('./controllers/countries')
+  , streetViewFavorites = require('./controllers/favorites')
+  , streetViewInfo = require('./controllers/info')
+  , streetViewLocations = require('./controllers/locations');
 
 // Set the index file to be served
 app.get('/', (req, res) => {
