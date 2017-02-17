@@ -82,11 +82,7 @@ router.put('/edit_comment',
         res.status(201).send(`Success: Comment with id ${req.query.id} edited`);
       }
     });
-  });
-
-/**
- *  DELETE delete_comment API call which allows an authenticated user to delete their comment
- */
+});
 
 /**
  *  DELETE route /delete_comment
@@ -96,16 +92,17 @@ router.put('/edit_comment',
  *      query.id -> The unique comment id
  *    Returns a success string if deleted
  */
-router.delete('/delete_comment', requireAuth, commentsMiddleware.checkCommentOwnership, function (req, res) {
-  Comment.findByIdAndRemove(req.query.id, err => {
-    if (err) {
-      res.send({
-        error: err
-      });
-    } else {
-      res.status(201).send(`Success: Comment with id ${req.query.id} deleted`);
-    }
-  });
+router.delete('/delete_comment', 
+  requireAuth, commentsMiddleware.checkCommentOwnership, (req, res) => {
+    Comment.findByIdAndRemove(req.query.id, err => {
+      if (err) {
+        res.send({
+          error: err
+        });
+      } else {
+        res.status(201).send(`Success: Comment with id ${req.query.id} deleted`);
+      }
+    });
 });
 
 module.exports = router;
