@@ -1,4 +1,4 @@
-var Comment = require("../models/comment");
+const Comment = require("../models/comment");
 
 /**
  *  Check that the user owns the comment

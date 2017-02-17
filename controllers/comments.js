@@ -1,28 +1,32 @@
-const express = require('express');
-const router = express.Router();
-const mongoose = require('mongoose');
-const passport = require('passport');
-
-const authentication = require('../middleware/authentication');
-const commentsMiddleware = require('../middleware/comments');
-const passportService = require('../config/passport');
+const express = require('express')
+  , router = express.Router()
+  , mongoose = require('mongoose')
+  , passport = require('passport')
+  , passportService = require('../config/passport')
+  , authentication = require('../middleware/authentication')
+  , commentsMiddleware = require('../middleware/comments')
+  , Comment = require('../models/comment');
 
 const requireAuth = passport.authenticate('jwt', { session: false });
 
-// Load in the models
-const Comment = require('../models/comment');
-
 /**
- *  GET get_comments API call which fetches all comments for a given view
+ *  GET route /get_comments
+ *    Retrieve the comments for a particular view
+ *    -> http://localhost:3001/api/street_view/comments/get_comments?id=[VIEW_ID]
+ *    Requirements:
+ *      query.id -> The unique view id
+ *    Returns a list of the comments sorted from latest to oldest
  */
-router.get('/get_comments', function (req, res) {
-  var term = {
+router.get('/get_comments', (req, res) => {
+  const term = {
     'view_id': mongoose.Types.ObjectId(req.query.id)
   };
-
-  Comment.find(term, function (err, result) {
+  // Find all of the comments in the database
+  Comment.find(term, (err, result) => {
     if (err) {
-      res.send(404, "The comments could not be located.");
+      res.send({
+        error: err
+      });
     } else {
       res.send(result.reverse());
     }
@@ -30,46 +34,76 @@ router.get('/get_comments', function (req, res) {
 });
 
 /**
- *  POST post_comment API call which allows an authenticated user to post to a given view
+ *  POST route /post_comment
+ *    Allows an authenticated user to post a comment to a given view
+ *    -> http://localhost:3001/api/street_view/comments/post_comment?id=[VIEW_ID]
+ *    Requirements:
+ *      query.id -> The unique view id
+ *      body.comment -> The body text of the inputted comment
+ *      user.username -> The username connected to the user's account
+ *    Returns a success string if created   
  */
-router.post('/post_comment', requireAuth, function (req, res) {
+router.post('/post_comment', requireAuth, (req, res) => {
   const newComment = {
     view_id: req.query.id,
     comment: req.body.comment,
     username: req.user.username
   };
 
-  Comment.create(newComment, function (err, comment) {
+  Comment.create(newComment, (err, comment) => {
     if (err) {
-      res.send(400, 'There was an error creating the comment.');
+      res.send({
+        error: err
+      });
     } else {
-      res.send(201, 'Success');
-    }
-  })
-});
-
-/**
- *  PUT edit_comment API call which allows an authenticated user to edit their comment
- */
-router.put('/edit_comment', requireAuth, commentsMiddleware.checkCommentOwnership, function (req, res) {
-  Comment.findByIdAndUpdate(req.query.id, req.body, function (err, updatedComment) {
-    if (err) {
-      res.send(400, "There was an error updating your comment.");
-    } else {
-      res.send(201, "Success");
+      res.status(201).send(`Success: Comment posted to view ${req.query.id}`);
     }
   });
 });
 
 /**
+ *  PUT route /edit_comment
+ *    Allows an authenticated user to edit their comment
+ *    -> http://localhost:3001/api/street_view/comments/edit_comment?id=[COMMENT_ID]
+ *    Requirements:
+ *      query.id -> The unique comment id
+ *      body.comment -> The body text of the newly edited comment
+ *    Returns a success string if edited
+ */
+router.put('/edit_comment',
+  requireAuth, commentsMiddleware.checkCommentOwnership, (req, res) => {
+    // Find the comment by it's id and update the text
+    Comment.findByIdAndUpdate(req.query.id, req.body, (err, updatedComment) => {
+      if (err) {
+        res.send({
+          error: err
+        });
+      } else {
+        res.status(201).send(`Success: Comment with id ${req.query.id} edited`);
+      }
+    });
+  });
+
+/**
  *  DELETE delete_comment API call which allows an authenticated user to delete their comment
  */
+
+/**
+ *  DELETE route /delete_comment
+ *    Allows an authenticated user to delete their comment from a view
+ *    -> http://localhost:3001/api/street_view/comments/delete_comment?id=[COMMENT_ID]
+ *    Requirements:
+ *      query.id -> The unique comment id
+ *    Returns a success string if deleted
+ */
 router.delete('/delete_comment', requireAuth, commentsMiddleware.checkCommentOwnership, function (req, res) {
-  Comment.findByIdAndRemove(req.query.id, function (err) {
+  Comment.findByIdAndRemove(req.query.id, err => {
     if (err) {
-      res.send(400, "There was an error deleting your comment.");
+      res.send({
+        error: err
+      });
     } else {
-      res.send(201, "Success");
+      res.status(201).send(`Success: Comment with id ${req.query.id} deleted`);
     }
   });
 });

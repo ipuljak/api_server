@@ -1,8 +1,8 @@
 const express = require('express')
   , router = express.Router()
   , passport = require('passport')
-  , Authentication = require('../middleware/authentication')
-  , passportService = require('../config/passport');
+  , passportService = require('../config/passport')
+  , Authentication = require('../middleware/authentication');
 
 // Set session to false as we are using tokens, not cookies
 const requireAuth = passport.authenticate('jwt', { session: false });
@@ -13,7 +13,8 @@ const requireSignin = passport.authenticate('local', { session: false });
  *    Logs the user in
  *    Requirements
  *      body.username -> The username of the account you wish to authenticate
- *      body.password -> The password of the account you wish to authenticate 
+ *      body.password -> The password of the account you wish to authenticate
+ *    Returns a JWT token upon a successful login, otherwise an error
  */
 router.post('/signin', requireSignin, Authentication.signin);
 
@@ -23,6 +24,7 @@ router.post('/signin', requireSignin, Authentication.signin);
  *    Requirements
  *      body.username -> The username of the new account you wish to register
  *      body.password -> The password of the new account you wish to reigster 
+ *    Returns a JWT token upon a successful register, otherwise an error
  */
 router.post('/signup', Authentication.signup);
 

@@ -1,53 +1,60 @@
-const express = require('express');
-const router = express.Router();
-const mongoose = require('mongoose');
-
-// Load in the models
-const Location = require('../models/location');
-const Country = require('../models/country');
-const Category = require('../models/category');
+const express = require('express')
+  , router = express.Router()
+  , mongoose = require('mongoose')
+  , Category = require('../models/category')
+  , Country = require('../models/country')
+  , Location = require('../models/location');
 
 /**
- *  GET distinct locations API call. To use:
- *      -> http://localhost:3001/api/street_view/get_distincts
- *      It returns a list of all the distinct types and cities.
+ *  GET route /get_distincts
+ *    Get all of the distinct categories and countries that host views
+ *    -> http://localhost:3001/api/street_view/info/get_distincts
+ *    Returns an object containing lists of all available categories and countries
  */
-router.get('/get_distincts', function (req, res) {
-  var distincts = {};
-
-  Category.find({}, function (err, result) {
+router.get('/get_distincts', (req, res) => {
+  let distincts = {};
+  // Find all of the categories and insert them into the distincts object
+  Category.find({}, (err, result) => {
     if (err) {
-      res.send(404);
+      res.send({
+        error: err
+      });
     } else {
-      distincts['type'] = result.sort(function (a, b) {
+      // Sort the categories alphabetically
+      distincts['type'] = result.sort((a, b) => {
         return a.name.localeCompare(b.name);
       });
     }
   });
 
-  Country.find({}, { 'name': 1, 'data.image': 1 }, function (err, result) {
+  // Find all of the countries and insert them into the distincts object
+  Country.find({}, { 'name': 1, 'data.image': 1 }, (err, result) => {
     if (err) {
-      res.send(404);
+      res.send({
+        error: err
+      });
     } else {
-      distincts['country'] = result.sort(function (a, b) {
+      // Sort the countries alphabetically
+      distincts['country'] = result.sort((a, b) => {
         return a.name.localeCompare(b.name);
       });
+      // Send the object to the user
       res.send(distincts);
     }
   });
 });
 
 /**
- *  GET location API call. To use:
- *      -> http://localhost:3001/api/street_view/info/search_locations?search=[term]
- *      where search can be any city or location type.
- *      Returns all resulting locations.
+ *  GET route /search_locations
+ *    Search all locations given a city or location type
+ *    -> http://localhost:3001/api/street_view/info/search_locations?search=[TERM]
+ *    Requirements:
+ *      query.search -> A city or location type (e.g. landmark, church, Toronto, Prague, etc).
+ *    Returns a list of views under the search term
  */
-router.get('/search_locations', function (req, res) {
-
-  var term = {};
-
-  // Search either by location type, landmark, or city
+router.get('/search_locations', (req, res) => {
+  let term = {};
+  // Construct the term object based on the given query search term
   if (req.query.search === 'landmark') {
     term = { 'landmark': true };
   } else {
@@ -57,9 +64,12 @@ router.get('/search_locations', function (req, res) {
     };
   }
 
-  Location.find(term, function (err, result) {
+  // Search either by location type, landmark, or city
+  Location.find(term, (err, result) => {
     if (err) {
-      res.send(404);
+      res.send({
+        error: err
+      });
     } else {
       res.send(result);
     }
@@ -67,26 +77,34 @@ router.get('/search_locations', function (req, res) {
 });
 
 /**
- *  GET country info API call. To use:
- *      -> http://localhost:3001/api/street_view/info/get_country_info?country=[country]
- *      It returns the information of a given country along with it's cities.
+ *  GET route /get_country_info
+ *    Obtain the information and cities of a queried country
+ *    -> http://localhost:3001/api/street_view/info/get_country_info?country=[COUNTRY]
+ *    Requirements:
+ *      query.country -> The given country to obtain the information of
+ *    Returns an object containing the country's information and it's cities
  */
-router.get('/get_country_info', function (req, res) {
-  var info = {};
-  var country = req.query.country;
-  var term = { 'location.country': country };
-
-  Country.findOne({ name: country }, function (err, result) {
+router.get('/get_country_info', (req, res) => {
+  const country = req.query.country;
+  let info = {};
+  let term = { 'location.country': country };
+  // Find the given country and insert it's information into the constructed object
+  Country.findOne({ name: country }, (err, result) => {
     if (err) {
-      res.send(404);
+      res.send({
+        error: err
+      });
     } else {
       info['info'] = result;
-
-      Location.distinct('location.city', term, function (err, cities) {
+      // Search for the all of the cities in the given country
+      Location.distinct('location.city', term, (err, cities) => {
         if (err) {
-          res.send(404);
+          res.send({
+            error: err
+          });
         } else {
           info['cities'] = cities;
+          // Finally send the constructed object to the user
           res.send(info);
         }
       });

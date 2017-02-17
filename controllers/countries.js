@@ -1,40 +1,45 @@
-const express = require('express');
-const router = express.Router();
-const mongoose = require('mongoose');
-
-// Load in the models
-const Country = require('../models/country');
+const express = require('express')
+  , router = express.Router()
+  , mongoose = require('mongoose')
+  , Country = require('../models/country');
 
 /**
- *  POST country API call. To use:
- *      -> http://localhost:3001/api/add_country
- *  Example usage:
- *  {
+ *  POST route /add_country
+ *    Creates a new view country
+ *    -> http://localhost:3001/api/street_view/countries/add_country
+ *    Requirements:
+ *      body.name -> The name of the country
+ *      body.data.image -> A link to the image
+ *      body.data.source -> A copyright source to the image if needed
+ *      body.data.link -> A link to additional information
+ *      body.data.info -> The info description of the country
+ *    Example usage of the request body:
+ *    {
  *      "name": "Canada",
  *      "data": {
- *          "image": ------
- *          "link": -------
- *          "source": -----
- *          "info": -------
+ *        "image": "https://imgur.com/some_image",
+ *        "source": "Copyright Some Person CC/SA 3.0",
+ *        "link": "https://wikipedia.org/Canada",
+ *        "info": "Canada is a great place to live"
  *      }
- *      "users": [This field is set automatically]
- *  }
+ *    }
+ *    Returns a success string if created
  */
-router.post('/add_country', function (req, res) {
-
+router.post('/add_country', (req, res) => {
   // Instantiate the new country object to be placed into the database
   const newCountry = {
     name: req.body.name,
     data: req.body.data,
     users: req.body.users
   };
-
   // Save the object into the database
-  Country.create(newCountry, function (err, newlyCreated) {
+  Country.create(newCountry, (err, country) => {
     if (err) {
-      console.log('There was an error adding in the new country', err);
+      res.send({
+        error: err
+      });
     } else {
-      res.send(201, 'Success');
+      res.status(201).send(`Success: Added country: ${country.name}`);
     }
   });
 });

@@ -5,8 +5,8 @@ const express = require('express')
 
 /**
  *  POST route /add_category
- *    -> http://localhost:3001/api/street_view/categories/add_category
  *    Creates a new view category
+ *    -> http://localhost:3001/api/street_view/categories/add_category
  *    Requirements:
  *      body.name -> The name of the category
  *      body.data.image -> A link to the image
@@ -15,10 +15,11 @@ const express = require('express')
  *    {
  *      "name": "Bridge",
  *      "data": {
- *        "image": "https://imgur.com/some_image"
+ *        "image": "https://imgur.com/some_image",
  *        "source": "Copyright Some Person CC/SA 3.0"
  *      }
  *    }
+ *    Returns a success string if created
  */
 router.post('/add_category', (req, res) => {
   // Instantiate the new category object to be placed into the database
@@ -33,7 +34,7 @@ router.post('/add_category', (req, res) => {
         error: err
       });
     } else {
-      res.status(201).send('Success: Added category: ' + category.name);
+      res.status(201).send(`Success: Added category: ${category.name}`);
     }
   });
 });
