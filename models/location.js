@@ -24,7 +24,6 @@ const mongoose = require('mongoose')
  *    users.userCreated -> BOOLEAN: Whether the location is user created
  *    users.comments -> ARRAY (STRING): A list of comments for the location
  *    alternate -> OBJECT: An alternate Street View location, same object format as body.view
- *    
  */
 const locationSchema = new Schema({
   type: String,
