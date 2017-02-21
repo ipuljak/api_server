@@ -4,10 +4,10 @@
 - [About](#about)  
 - [Installation](#installation)  
 - [Demo](#demo)  
-- [How To Use](#howtouse)  
-- [File Structure](#structure)  
-- [Technologies Used](#techused)  
-- [About Me](#aboutme)  
+- [How To Use](#how to use)  
+- [File Structure](#file structure)  
+- [Technologies Used](#technology used)  
+- [About Me](#about me)  
 
 ### About
 This is a React and D3 application that I made which utilizes the Spotify and Last.fm APIs to fetch and display information about an artist, as well as give suggestions to similar artists through a dynamically expandable node tree diagram. The purpose of the application is to let the user explore and discover music similar to their tastes by finding comparable artists and giving the user some music to preview.
