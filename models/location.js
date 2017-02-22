@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
   , Schema = mongoose.Schema;
 
 /**
- *  Country Schema
+ *  Location Schema
  *    type -> STRING: The type of the location (i.e. bridge, church, etc.)
  *    landmark -> BOOLEAN: Whether the location is considered a landmark
  *    name -> STRING: The name of the location
