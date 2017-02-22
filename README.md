@@ -1,28 +1,28 @@
 # Street View Tourist API Server
 
 ## Table of Contents  
-**[About](#about)**  
-[Installation](#installation)  
-[Live Deployment](#live-deployment)  
-[Technology Used](#technology-used)  
-**[Project Code](#project-code)**  
-[Models](#models)  
-  - [Category](#category)  
-  - [Comment](#comment)  
-  - [Country](#country)  
-  - [Location](#location)  
-  - [User](#user)
-[Controllers](#controllers)  
-  - [Auth](#auth)  
-  - [Categories](#categories)  
-  - [Comments](#comments)  
-  - [Countries](#countries)  
-  - [Favorites](#favorites)  
-  - [Info](#info)  
-  - [Location](#locations)
-[Middleware](#middleware)  
-  - [Authentication](#authentication)  
-**[About Me](#about-me)**
+* **[About](#about)**  
+  * [Installation](#installation)  
+  * [Live Deployment](#live-deployment)  
+  * [Technology Used](#technology-used)  
+* **[Project Code](#project-code)**  
+  * [Models](#models)  
+    * [Category](#category)  
+    * [Comment](#comment)  
+    * [Country](#country)  
+    * [Location](#location)  
+    * [User](#user)
+  * [Controllers](#controllers)  
+    * [Auth](#auth)  
+    * [Categories](#categories)  
+    * [Comments](#comments)  
+    * [Countries](#countries)  
+    * [Favorites](#favorites)  
+    * [Info](#info)  
+    * [Location](#locations)
+  * [Middleware](#middleware)  
+    * [Authentication](#authentication)  
+* **[About Me](#about-me)**
 
 ## About
 
