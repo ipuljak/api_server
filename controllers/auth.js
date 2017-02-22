@@ -11,7 +11,7 @@ const requireSignin = passport.authenticate('local', { session: false });
 /**
  *  POST route /signin
  *    Logs the user in
- *    Requirements
+ *    Requirements:
  *      body.username -> The username of the account you wish to authenticate
  *      body.password -> The password of the account you wish to authenticate
  *    Returns a JWT token upon a successful login, otherwise an error
@@ -21,7 +21,7 @@ router.post('/signin', requireSignin, Authentication.signin);
 /**
  *  POST route /signup
  *    Creates a user
- *    Requirements
+ *    Requirements:
  *      body.username -> The username of the new account you wish to register
  *      body.password -> The password of the new account you wish to reigster 
  *    Returns a JWT token upon a successful register, otherwise an error

@@ -28,7 +28,7 @@
 ## About
 The Street View Tourist is a full stack project I made which aims to give the user a virtual tourist experience through being able to explore the various Google Street Views of famous landmarks and locations of the world.
 
-This repository contains the back-end code for the website, including all database models, route controllers, middleware, and more. The starting point for the URI is at https://streetviewtourist.com/api/street_view/, or http://localhost:3010/ if running it locally.
+This repository contains the back-end code for the website, including all database models, route controllers, middleware, and more. The starting point for the URI is at https://streetviewtourist.com/api/street_view/, or http://localhost:3001/ if running it locally.
 
 ### Installation
 To install, run:
@@ -148,7 +148,7 @@ The following are the routes which handle the various action controllers:
 `http://localhost:3001/api/street_view/auth/signin`
 
 * Logs the user in
-* Requirements
+* Requirements:
   * body.username -> The username of the account you wish to authenticate
   * body.password -> The password of the account you wish to authenticate
 * Returns a JWT token upon a successful login, otherwise an error
@@ -157,7 +157,7 @@ The following are the routes which handle the various action controllers:
 `http://localhost:3001/api/street_view/auth/signup`
 
 * Creates a user
-* Requirements
+* Requirements:
   * body.username -> The username of the new account you wish to register
   * body.password -> The password of the new account you wish to reigster 
 * Returns a JWT token upon a successful register, otherwise an error
@@ -172,13 +172,14 @@ The following are the routes which handle the various action controllers:
   * body.data.image -> A link to the image
   * body.data.source -> A copyright source to the image if needed
   * Example usage of the request body:
-    ```   {
-          "name": "Bridge",
-          "data": {
-            "image": "https://imgur.com/some_image",
-            "source": "Copyright Some Person CC/SA 3.0"
-          }
-        }
+    ```   
+    {
+      "name": "Bridge",
+      "data": {
+        "image": "https://imgur.com/some_image",
+        "source": "Copyright Some Person CC/SA 3.0"
+      }
+    }
     ```
 * Returns a success string if created
 
