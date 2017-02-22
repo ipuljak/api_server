@@ -1,30 +1,31 @@
 # Street View Tourist API Server
 
 ## Table of Contents  
-[About](#about)  
-**[Installation](#installation)**  
-**[Live Deployment](#live-deployment)**  
-**[Technology Used](#technology-used)**  
-[Project Code](#project-code)  
-**[Models](#models)**  
+**[About](#about)**  
+[Installation](#installation)  
+[Live Deployment](#live-deployment)  
+[Technology Used](#technology-used)  
+**[Project Code](#project-code)**  
+[Models](#models)  
   - [Category](#category)  
   - [Comment](#comment)  
   - [Country](#country)  
   - [Location](#location)  
-  - [User](#user)  
-**[Controllers](#controllers)**  
+  - [User](#user)
+[Controllers](#controllers)  
   - [Auth](#auth)  
   - [Categories](#categories)  
   - [Comments](#comments)  
   - [Countries](#countries)  
   - [Favorites](#favorites)  
   - [Info](#info)  
-  - [Location](#locations)  
-**[Middleware](#middleware)**  
+  - [Location](#locations)
+[Middleware](#middleware)  
   - [Authentication](#authentication)  
-[About Me](#about-me)
+**[About Me](#about-me)**
 
 ## About
+
 
 ### Installation
 To install, run:
@@ -72,7 +73,7 @@ The following are some of the various frameworks and libraries used to create th
 
 ### Models
 
-#### Category  
+#### Category
 A comment looks like this.
 
 #### Comment
@@ -84,9 +85,25 @@ This is a Location
 
 #### User  
 
-### Controllers  
+### Controllers
 
-### Middleware  
+#### Auth
+
+#### Categories
+
+#### Comments
+
+#### Countries
+
+#### Favorites
+
+#### Info
+
+#### Locations
+
+### Middleware
+
+#### Authentication
 
 ## About Me  
 I'm a computer science graduate looking to break into the world of professional software and web development. For more information about me, visit my website at [puljak.ca](https://puljak.ca)!
