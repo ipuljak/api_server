@@ -1,13 +1,62 @@
 # Spotify Artist Explorer
 
 ## Table of Contents
+[Models](#models)  
+- 
+[Controllers](#controllers)  
+
+
+## About  
+
+### Installation  
+To install, run:
+
+`npm install`
+
+To run the server (default port 3001):
+
+`node index.js`
+
+or you may run the server with a daemon or process manager such as nodemon, forever, or pm2.
+
+### Live Deployment  
+Some GET calls are publically available to use from the live website. See the [controllers](#controllers) for further details.
+
+### Technologies Used  
+
+## Code  
+
+### File Structure  
+
+### Models  
+This is just an example
+
+### Models 2  
+Another example
+
+#### Comment  
+A comment looks like this.
+
+#### Location  
+This is a Location
+
+
+
+### Controllers  
+
+### Middleware  
+
+## About Me  
+I'm a computer science graduate looking to break into the world of professional software and web development. For more information about me, visit my website at [puljak.ca](https://puljak.ca)!
+
+
 - [About](#about)  
 - [Installation](#installation)  
 - [Demo](#demo)  
-- [How To Use](#how to use)  
-- [File Structure](#file structure)  
-- [Technologies Used](#technology used)  
-- [About Me](#about me)  
+- [How To Use](#how-to-use)  
+- [File Structure](#file-structure)  
+- [Technologies Used](#technology-used)  
+- [About Me](#about-me)  
 
 ### About
 This is a React and D3 application that I made which utilizes the Spotify and Last.fm APIs to fetch and display information about an artist, as well as give suggestions to similar artists through a dynamically expandable node tree diagram. The purpose of the application is to let the user explore and discover music similar to their tastes by finding comparable artists and giving the user some music to preview.
