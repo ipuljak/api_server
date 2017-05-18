@@ -330,4 +330,4 @@ The following is the middleware that this application uses:
 The API for Street View Tourist uses passport.js to handle user authentication. It uses JSON web tokens that are sent to the user when they register or sign in and are subsequently stored in the user browser's local storage. Passport uses a given username and password to make comparisons in the database to authenticate the credentials. Passwords are hashed and stored in the database using bcrypt.
 
 ## About Me  
-I'm a computer science graduate looking to break into the world of professional software and web development. For more information about me, visit my website at [puljak.ca](https://puljak.ca)!
+I'm a computer science graduate working as a software developer at [JoeZoo Inc.](https://getjoezoo.com/). For more information about me, visit my website at [puljak.ca](https://puljak.ca)!
